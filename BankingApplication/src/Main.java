@@ -11,8 +11,8 @@ public class Main {
             System.out.println("1. Create account");
             System.out.println("2. Withdraw");
             System.out.println("3. Deposit");
-
-            System.out.println("4. Exit");
+            System.out.println("4. Transfer");
+            System.out.println("5. Exit");
 
             int choice = scanner.nextInt();
 
@@ -58,6 +58,28 @@ public class Main {
                     }
                     break;
                 case 4:
+                    System.out.print("Enter sender name: ");
+                    String sender = scanner.next();
+                    Account senderAcc = selectAccount(accounts, sender);
+                    if (senderAcc == null) {
+                        System.out.println("Account not found");
+                        break;
+                    }
+
+                    System.out.print("Enter receiver name: ");
+                    String receiver = scanner.next();
+                    Account receiverAcc = selectAccount(accounts, receiver);
+                    if (receiverAcc == null) {
+                        System.out.println("Account not found");
+                        break;
+                    }
+
+                    System.out.print("Enter transfer amount: ");
+                    double transferAmount = scanner.nextDouble();
+                    boolean transferSuccessful = senderAcc.transfer(receiverAcc, transferAmount);
+
+                    break;
+                case 5:
                     System.exit(0);
                     break;
                 default:
@@ -108,6 +130,21 @@ class Account {
 
         }
     }
+    public boolean transfer(Account toAcc, double amount) {
+        if (funds < amount) {
+            System.out.println("Insufficient funds");
 
+        } else {
+            withdraw(amount);
+            toAcc.deposit(amount);
+            System.out.println("Transfer success");
+            System.out.println("Updated balance in " + getName() + " is " + funds);
+            System.out.println("New balance in " + toAcc.getName() + " is " + toAcc.getBalance());
+
+        }
+
+        return true;
+
+    }
 
 }
