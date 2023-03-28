@@ -22,8 +22,8 @@ public class Main {
                 case 1:
                     System.out.print("Enter account name: ");
                     String name = scanner.next();
-                    System.out.print("Enter initial balance: ");
-                    int balance = scanner.nextInt();
+                    System.out.print("Enter initial balance: £");
+                    double balance = scanner.nextDouble();
                     Account newAccount = new Account(name, balance);
                     bankAccounts.add(newAccount);
                     System.out.println("Account created");
@@ -35,7 +35,7 @@ public class Main {
                     if (withdrawAccount == null) {
                         System.out.println("Account doesnt exist");
                     } else {
-                        System.out.print("Enter withdrawal amount: ");
+                        System.out.print("Enter withdrawal amount: £");
                         double amount = scanner.nextDouble();
                         withdrawAccount.withdraw(amount);
 
@@ -49,11 +49,11 @@ public class Main {
                     if (depositAccount == null) {
                         System.out.println("Account doesnt exist");
                     } else {
-                        System.out.print("Deposit amount: ");
-                        int amount = scanner.nextInt();
+                        System.out.print("Deposit amount: £");
+                        double amount = scanner.nextDouble();
                         depositAccount.deposit(amount);
                         System.out.println("Deposit successful");
-                        System.out.println("New balance: " + depositAccount.getBalance());
+                        System.out.println("New balance: £" + depositAccount.getBalance());
 
                     }
                     break;
@@ -74,7 +74,7 @@ public class Main {
                         break;
                     }
 
-                    System.out.print("Enter transfer amount: ");
+                    System.out.print("Enter transfer amount: £");
                     double transferAmount = scanner.nextDouble();
                     boolean transferSuccessful = senderAcc.transfer(receiverAcc, transferAmount);
 
@@ -88,7 +88,7 @@ public class Main {
                         System.out.println("Account doesn't exist");
                     } else {
                         System.out.println("Name: " + account.getName());
-                        System.out.println("Balance: " + account.getBalance());
+                        System.out.println("Balance: £" + account.getBalance());
                     }
                     break;
                 case 6:
@@ -138,7 +138,7 @@ class Account {
         } else {
             funds -= amount;
             System.out.println("Withdrawal successful");
-            System.out.println("New balance is " + funds);
+            System.out.println("New balance is £" + funds);
 
         }
     }
@@ -154,8 +154,8 @@ class Account {
             }
             toAcc.deposit(amount);
             System.out.println("Transfer success");
-            System.out.println("Updated balance in " + getName() + " is " + funds);
-            System.out.println("New balance in " + toAcc.getName() + " is " + toAcc.getBalance());
+            System.out.println("Updated balance in " + getName() + " is £" + funds);
+            System.out.println("New balance in " + toAcc.getName() + " is £" + toAcc.getBalance());
             return true;
         }
 
