@@ -36,8 +36,6 @@ public class Main {
                         System.out.print("Enter withdrawal amount: ");
                         double amount = scanner.nextDouble();
                         withdrawAccount.withdraw(amount);
-                        System.out.println("Withdrawal successful");
-                        System.out.println("New balance: " + withdrawAccount.getBalance());
 
                     }
                     break;
@@ -135,7 +133,11 @@ class Account {
             System.out.println("Insufficient funds");
             return false;
         } else {
-            withdraw(amount);
+            if (funds < amount) {
+            } else {
+                funds -= amount;
+
+            }
             toAcc.deposit(amount);
             System.out.println("Transfer success");
             System.out.println("Updated balance in " + getName() + " is " + funds);
