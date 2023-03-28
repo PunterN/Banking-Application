@@ -133,17 +133,17 @@ class Account {
     public boolean transfer(Account toAcc, double amount) {
         if (funds < amount) {
             System.out.println("Insufficient funds");
-
+            return false;
         } else {
             withdraw(amount);
             toAcc.deposit(amount);
             System.out.println("Transfer success");
             System.out.println("Updated balance in " + getName() + " is " + funds);
             System.out.println("New balance in " + toAcc.getName() + " is " + toAcc.getBalance());
-
+            return true;
         }
 
-        return true;
+
 
     }
 
