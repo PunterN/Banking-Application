@@ -4,32 +4,34 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Account> accounts = new ArrayList<>();
+        ArrayList<Account> bankAccounts = new ArrayList<>();
 
         while (true) {
-            System.out.println("\nSelect option:");
-            System.out.println("1. Create account");
+            System.out.println("\n/--------------------/");
+            System.out.println("Select option:");
+            System.out.println("1. Create Account");
             System.out.println("2. Withdraw");
             System.out.println("3. Deposit");
             System.out.println("4. Transfer");
-            System.out.println("5. Exit");
+            System.out.println("5. Show Account Details");
+            System.out.println("6. Exit");
 
-            int choice = scanner.nextInt();
+            int selectOption = scanner.nextInt();
 
-            switch (choice) {
+            switch (selectOption) {
                 case 1:
                     System.out.print("Enter account name: ");
                     String name = scanner.next();
                     System.out.print("Enter initial balance: ");
                     int balance = scanner.nextInt();
                     Account newAccount = new Account(name, balance);
-                    accounts.add(newAccount);
+                    bankAccounts.add(newAccount);
                     System.out.println("Account created");
                     break;
                 case 2:
                     System.out.print("Enter account name: ");
                     name = scanner.next();
-                    Account withdrawAccount = selectAccount(accounts, name);
+                    Account withdrawAccount = selectAccount(bankAccounts, name);
                     if (withdrawAccount == null) {
                         System.out.println("Account doesnt exist");
                     } else {
@@ -43,7 +45,7 @@ public class Main {
 
                     System.out.print("Enter accounts name: ");
                     name = scanner.next();
-                    Account depositAccount = selectAccount(accounts, name);
+                    Account depositAccount = selectAccount(bankAccounts, name);
                     if (depositAccount == null) {
                         System.out.println("Account doesnt exist");
                     } else {
@@ -58,7 +60,7 @@ public class Main {
                 case 4:
                     System.out.print("Enter sender name: ");
                     String sender = scanner.next();
-                    Account senderAcc = selectAccount(accounts, sender);
+                    Account senderAcc = selectAccount(bankAccounts, sender);
                     if (senderAcc == null) {
                         System.out.println("Account not found");
                         break;
@@ -66,7 +68,7 @@ public class Main {
 
                     System.out.print("Enter receiver name: ");
                     String receiver = scanner.next();
-                    Account receiverAcc = selectAccount(accounts, receiver);
+                    Account receiverAcc = selectAccount(bankAccounts, receiver);
                     if (receiverAcc == null) {
                         System.out.println("Account not found");
                         break;
@@ -77,7 +79,19 @@ public class Main {
                     boolean transferSuccessful = senderAcc.transfer(receiverAcc, transferAmount);
 
                     break;
+
                 case 5:
+                    System.out.print("Enter account name: ");
+                    name = scanner.next();
+                    Account account = selectAccount(bankAccounts, name);
+                    if (account == null) {
+                        System.out.println("Account doesn't exist");
+                    } else {
+                        System.out.println("Name: " + account.getName());
+                        System.out.println("Balance: " + account.getBalance());
+                    }
+                    break;
+                case 6:
                     System.exit(0);
                     break;
                 default:
