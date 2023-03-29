@@ -2,23 +2,35 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        ArrayList<Account> bankAccounts = new ArrayList<>();
 
-        while (true) {
+    public static void main(String[] args)
+    {
+        // ArrayList to store bank accounts
+        ArrayList<Account> bankAccounts = new ArrayList<>();
+        // Scanner object to get user inputs
+        Scanner scanner = new Scanner(System.in);
+
+        // Infinite loop so user can keep in the application until using exit
+        while (true)
+        {
+            // User UI
             System.out.println("\n/--------------------/");
+            System.out.println("--- Banking Portal ---");
+            System.out.println("/--------------------/");
             System.out.println("Select option:");
             System.out.println("1. Create Account");
-            System.out.println("2. Withdraw");
-            System.out.println("3. Deposit");
-            System.out.println("4. Transfer");
-            System.out.println("5. Show Account Details");
-            System.out.println("6. Exit");
+            System.out.println("2. Show Account Details");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Deposit");
+            System.out.println("5. Transfer");
 
+            System.out.println("6. Exit");
+            // Read user option input
             int selectOption = scanner.nextInt();
 
-            switch (selectOption) {
+            switch (selectOption)
+            {
+                //Create account object by adding name and balance to arraylist
                 case 1:
                     System.out.print("Enter account name: ");
                     String name = scanner.next();
@@ -28,11 +40,29 @@ public class Main {
                     bankAccounts.add(newAccount);
                     System.out.println("Account created");
                     break;
+
+                // Enter account name in order to user selectAccount() to find the intended account
                 case 2:
                     System.out.print("Enter account name: ");
                     name = scanner.next();
+                    Account account = selectAccount(bankAccounts, name);
+                    if (account == null)
+                    {
+                        System.out.println("Account doesn't exist");
+                    } else
+                    {
+                        System.out.println("Name: " + account.retrieveName());
+                        System.out.println("Balance: £" + account.retrieveBalance());
+                    }
+                    break;
+                /* Withdraw from account, use selectAccount() to search for intended account
+                    use withdraw() to update account balance */
+                case 3:
+                    System.out.print("Enter account name to withdraw from: ");
+                    name = scanner.next();
                     Account withdrawAccount = selectAccount(bankAccounts, name);
-                    if (withdrawAccount == null) {
+                    if (withdrawAccount == null)
+                    {
                         System.out.println("Account doesnt exist");
                     } else {
                         System.out.print("Enter withdrawal amount: £");
@@ -41,32 +71,39 @@ public class Main {
 
                     }
                     break;
-                case 3:
-
-                    System.out.print("Enter accounts name: ");
+                /* Deposit money into the account, use selectAccount() to search for intended account
+                    then deposit() updates the account balance
+                 */
+                case 4:
+                    System.out.print("Enter accounts name to deposit to: ");
                     name = scanner.next();
                     Account depositAccount = selectAccount(bankAccounts, name);
-                    if (depositAccount == null) {
+                    if (depositAccount == null)
+                    {
                         System.out.println("Account doesnt exist");
-                    } else {
+                    } else
+                    {
                         System.out.print("Deposit amount: £");
                         double amount = scanner.nextDouble();
                         depositAccount.deposit(amount);
                         System.out.println("Deposit successful");
-                        System.out.println("New balance: £" + depositAccount.getBalance());
+                        System.out.println("New balance: £" + depositAccount.retrieveBalance());
 
                     }
                     break;
-                case 4:
-                    System.out.print("Enter sender name: ");
+                /* Transfer between accounts, use selectAccount() to make sender account object,
+                 *  then make receiver object in the same way then transfer() updatees each account accordingly */
+                case 5:
+                    System.out.print("Enter senders account name: ");
                     String sender = scanner.next();
                     Account senderAcc = selectAccount(bankAccounts, sender);
-                    if (senderAcc == null) {
+                    if (senderAcc == null)
+                    {
                         System.out.println("Account not found");
                         break;
                     }
 
-                    System.out.print("Enter receiver name: ");
+                    System.out.print("Enter receivers account name: ");
                     String receiver = scanner.next();
                     Account receiverAcc = selectAccount(bankAccounts, receiver);
                     if (receiverAcc == null) {
@@ -80,17 +117,7 @@ public class Main {
 
                     break;
 
-                case 5:
-                    System.out.print("Enter account name: ");
-                    name = scanner.next();
-                    Account account = selectAccount(bankAccounts, name);
-                    if (account == null) {
-                        System.out.println("Account doesn't exist");
-                    } else {
-                        System.out.println("Name: " + account.getName());
-                        System.out.println("Balance: £" + account.getBalance());
-                    }
-                    break;
+                /* System.exit(0) is used just to exit the program in its intended manner */
                 case 6:
                     System.exit(0);
                     break;
@@ -100,10 +127,16 @@ public class Main {
             }
         }
     }
-
-    public static Account selectAccount(ArrayList<Account> accounts, String name) {
-        for (Account account : accounts) {
-            if (account.getName().equals(name)) {
+    /* Searches for an account in the list by name, 'ArrayList<Account>' is the list to search through,
+    'name' is the name of the account to search for, then returns account if exists otherwise return null
+     */
+    public static Account selectAccount(ArrayList<Account> accounts, String name)
+    {
+        for (Account account:accounts)
+        {
+            // retrieveName() method gets the name of the account then equals() checks if it matches the name passed in the method
+            if (account.retrieveName().equals(name))
+            {
                 return account;
             }
         }
@@ -111,56 +144,4 @@ public class Main {
     }
 }
 
-class Account {
-    private String name;
-    private double funds;
 
-    public Account(String name, double funds) {
-        this.name = name;
-        this.funds = funds;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getBalance() {
-        return funds;
-    }
-
-    public void deposit(double amount) {
-        funds += amount;
-    }
-
-    public void withdraw(double amount) {
-        if (funds < amount) {
-            System.out.println("Insufficient funds");
-        } else {
-            funds -= amount;
-            System.out.println("Withdrawal successful");
-            System.out.println("New balance is £" + funds);
-
-        }
-    }
-    public boolean transfer(Account toAcc, double amount) {
-        if (funds < amount) {
-            System.out.println("Insufficient funds");
-            return false;
-        } else {
-            if (funds < amount) {
-            } else {
-                funds -= amount;
-
-            }
-            toAcc.deposit(amount);
-            System.out.println("Transfer success");
-            System.out.println("Updated balance in " + getName() + " is £" + funds);
-            System.out.println("New balance in " + toAcc.getName() + " is £" + toAcc.getBalance());
-            return true;
-        }
-
-
-
-    }
-
-}
